@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+                integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <title>Selamat Datang ^_^</title>
+    </head>
+
+    <body>
+        <div>
+            <h1>Data Consume</h1>
+        </div>
+
+        <script>
+            //get data
+            function getAll() {
+                const urlg = "http://localhost:8080/data";
+                $.ajax({
+                    url: urlg,
+                    method: "GET",
+                    dataType: "text",
+                    success: function (result) {
+                        document.getElementById("viewer").innerHTML = result;
+                    }
+                });
+            }
+
+            //create new data
+            function createData() {
+                const url = "http://localhost:8080/data";
+                let editID = document.getElementById("Id").value;
+                let Nik = document.getElementById("NIK").value;
+                let Nama = document.getElementById("Nama").value;
+                let TanggalLahir = document.getElementById("Tanggal_Lahir").value;
+                let Timestamp = document.getElementById("Timestamp").value;
+                let dataText = {
+                    Id: editID,
+                    NIK: Nik,
+                    Nama: Nama,
+                    Tanggal_Lahir: TanggalLahir,
+                    Timestamp: Timestamp
+                };
+                let dataJson = JSON.stringify(dataText);
+                $.ajax({
+                    url: url,
+                    method: "POST",
+                    dataType: "text",
+                    contentType: "application/json",
+                    data: dataJson,
+                    success: function (result) {
+                        console.log(dataText);
+                        console.log(result);
+                    },
+                });
+            }
+
+            function updateData() {
+                const urlp = "http://localhost:8080/data";
+                let editID = document.getElementById("id").value;
+                let namabarang = document.getElementById("nama").value;
+                let jumlahbarang = document.getElementById("jumlah").value;
+                let dataText = {
+                    Id: editID,
+                    NIK: Nik,
+                    Nama: Nama,
+                    Tanggal_Lahir: TanggalLahir,
+                    Timestamp: Timestamp
+                };
+                let dataJson = JSON.stringify(dataText);
+                $.ajax({
+                    url: urlp,
+                    method: "PUT",
+                    data: dataJson,
+                    contentType: "application/json",
+                    dataType: "text",
+                    success: function (result) {
+                        console.log(result);
+                    },
+                });
+            }
+
+            function deleteData() {
+                const urlp = "http://localhost:8080/data";
+                let editID = document.getElementById("Id").value;
+                let dataText = {
+                    Id: editID
+                };
+                let dataJson = JSON.stringify(dataText);
+                $.ajax({
+                    url: urlp,
+                    method: "DELETE",
+                    data: dataJson,
+                    contentType: "application/json",
+                    dataType: "text",
+                    success: function (result) {
+                        console.log(result);
+                    },
+                });
+            }
+        </script>
+
+        <input type="text" id="Id" placeholder="Id" />
+        <input type="text" id="Nik" placeholder="NIK" />
+        <input type="text" id="Nama" placeholder="Nama" />
+        <input type="text" id="TanggalLahir" placeholder="Tanggal_Lahir" />
+        <input type="text" id="Timestamp" placeholder="Timestamp" />
+
+
+        <hr />
+
+        <button onclick="getAll()">Get Data From Web Service</button> <br />
+        <button onclick="createData()">Send Data From Web Service</button> <br />
+        <button onclick="updateData()">Edit Data From Web Service</button> <br />
+        <button onclick="deleteData()">Delete Data From Web Service</button> <br />
+
+        <hr />
+
+        <div id="viewer"></div>
+
+    </body>
+
+</html>
